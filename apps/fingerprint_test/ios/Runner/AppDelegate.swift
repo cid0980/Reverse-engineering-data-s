@@ -234,7 +234,7 @@ class FingerprintTestPlugin: NSObject, FlutterStreamHandler {
 
   // MARK: - emit
 
-  private func emit(type: String, code: Int, message: String?) {
+  private func emit(type: String, code: Int = 0, message: String? = nil) {
     DispatchQueue.main.async { [weak self] in
       guard let sink = self?.eventSink else { return }
       sink(["type": type, "code": code, "message": message ?? ""])
