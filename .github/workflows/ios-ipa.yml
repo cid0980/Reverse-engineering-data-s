@@ -1,0 +1,51 @@
+name: Build unsigned iOS IPA
+
+# Builds the iOS app on GitHub's free macOS runner (no Mac needed).
+# Produces an UNSIGNED .ipa — Sideloadly / 3uTools sign it on a Windows PC
+# with a FREE Apple ID (7-day install). Guide: docs/INSTALL_IOS_WITHOUT_MAC.md
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: apps/fingerprint_test
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.5
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Build iOS app (NO code signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: Package .ipa (Payload/Runner.app)
+        run: |
+          rm -rf Payload
+          mkdir -p Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          rm -f fingerprint_test_unsigned.ipa
+          zip -qry fingerprint_test_unsigned.ipa Payload
+          ls -la fingerprint_test_unsigned.ipa
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fingerprint_test_ipa
+          path: apps/fingerprint_test/fingerprint_test_unsigned.ipa
+          retention-days: 30

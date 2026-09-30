@@ -1,0 +1,10 @@
+# Basic analyzer configuration (no external lint packages required).
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+linter:
+  rules:
+    prefer_final_fields: true
+    unnecessary_null_checks: true

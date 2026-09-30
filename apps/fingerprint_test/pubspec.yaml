@@ -1,0 +1,22 @@
+name: fingerprint_test
+description: >-
+  Single-feature biometric diagnostic app. Android: fingerprint sensor ONLY
+  (legacy FingerprintManager — never touches camera or BiometricPrompt).
+  iOS: Face ID / Touch ID via LocalAuthentication (system prompt only —
+  the app never opens the camera).
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

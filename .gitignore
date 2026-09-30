@@ -1,0 +1,13 @@
+# Whitelist: only the repo content below is tracked at /home/user root.
+/*
+!/.gitignore
+!/.github
+!/apps
+!/docs
+!/research
+!/releases
+!/README.md
+
+# macOS/JVM noise anywhere
+.DS_Store
+*.iml
